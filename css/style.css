@@ -1,0 +1,167 @@
+/*common*/
+*{
+    margin:0;
+    padding:0;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+}
+[v-cloak]{
+    display: none;
+}
+#HomeButton {
+    position: absolute;
+    bottom: 120px;
+    right: 20px;
+    z-index: 50;
+}
+ul li{
+    list-style: none;
+}
+.flex-box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.bg{
+    background: -webkit-linear-gradient(bottom,rgba(31,246,248,0.9), rgba(49,126,249,0.9)); /* Safari 5.1 - 6 */
+    background: -o-linear-gradient(top,rgba(31,246,248,0.9), rgba(49,126,249,0.9)); /* Opera 11.1 - 12*/
+    background: -moz-linear-gradient(top,rgba(31,246,248,0.9), rgba(49,126,249,0.9)); /* Firefox 3.6 - 15*/
+    background: linear-gradient(to top, rgba(31,246,248,0.9), rgba(49,126,249,0.9)); /* 标准的语法 */
+}
+.border{
+    border:none;
+    border-radius: 4px;
+}
+/*首页index*/
+.toggle {
+    display: block;
+    height: 72px;
+    line-height: 72px;
+    text-align: center;
+    width: 72px;
+}
+.logout {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    color: #0000ff;
+    cursor: pointer
+}
+
+/*图解咸阳home*/
+.home-container {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 50px 0 0;
+}
+.head {
+    background: rgba(0, 0, 0, 0.6);
+    height: 50px;
+    margin: -50px 0 0;
+}
+.head .head-logo{
+    flex-grow: 1;
+    justify-content: flex-start;
+    margin-left: 20px;
+}
+.head .head-nav{
+    margin-right: 100px;
+    color: #fff;
+}
+.head-nav li {
+    margin:0px 30px;
+    cursor: pointer;
+}
+.head .head-btn{
+    margin-right: 20px;
+}
+.head-btn button{
+    padding: 5px 15px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+/*home-左侧导航*/
+.nav-container-box{
+    height: 100%;
+    justify-content:flex-start;
+    align-items:flex-start;
+    position: absolute;
+    z-index: 9999;
+}
+.nav-container{
+    width: 60px;
+    height: 100%;
+}
+.nav-container li{
+    text-align: center;
+    border-bottom: 1px solid #fff;
+    padding: 10px 0px;
+    color: #fff;
+    cursor: pointer;
+}
+.nav-box{
+    width: 300px;
+    height: 100%;
+    background: white;
+    border: 2px solid #b5bcc7;
+}
+
+
+.aside-container{
+    position: absolute;
+    z-index: 9999;
+    top: 80px;
+    right: 20px;
+}
+.aside-container .border:hover,.aside-container .border.on{
+    background-color: #b7faff;
+    color: white;
+}
+.aside-container li{
+    text-align: center;
+    background: #fff;
+    margin: 5px 0;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+.aside-container li p{
+    color: #999;
+}
+.foot-nav {
+    position: absolute;
+    z-index: 9999;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    justify-content: center;
+    z-index: 1;
+}
+.foot-nav li {
+    margin: 0 20px;
+    padding: 10px 15px;
+    color:#fff;
+    cursor: pointer;
+}
+.nav-content{
+    background-color: #317EF9;
+    padding: 5px 10px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 微软雅黑;
+}
+.nav-box-0{}
+.nav-box-list{
+    padding: 10px;
+    font-size: 18px;
+}
+.nav-box-list li{
+    padding: 5px;
+}

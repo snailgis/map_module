@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <title>通用性地图数据平台</title>
+
+    <!--self css-->
+    <link rel="stylesheet" media="screen" href="../css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://fp1.xys.gov.cn/big-screen/arcgis_js_api/library/3.21/3.21/esri/css/esri.css"/>
+    <script type="text/javascript">
+        //注意!!!：必须先要写配置文件，再载入Dojo.js
+        var dojoConfig = {
+            packages: [{
+                name: "MapModule",
+                location: location.pathname.replace(/\/[^/]*$/, '') +'/MapModule'
+            }]
+        };
+    </script>
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script src="../js/constant.js"></script>
+    <script src="../js/app.js"></script>
+    <script src="../js/basemap.js"></script>
+    <script src="../js/DataManager.js"></script>
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="../js/layer-v3.1.1/layer/layer.js"></script>
+    <script type="text/javascript" src="http://fp1.xys.gov.cn/big-screen/arcgis_js_api/library/3.21/3.21/init.js"></script>
+</head>
+<body>
+<div id="map" class="home-container" style="position: fixed">
+    <div id="HomeButton"></div>
+    <header>
+        <div class="flex-box head">
+            <div class="flex-box head-logo">
+                <img src="../img/logo.png" alt="logo">
+                <span style="color: #fdfff8;font-size: 24px;font-weight: bolder">通用性地图数据平台</span>
+            </div>
+            <ul class="flex-box head-nav">
+                <li>首页</li>
+                <li>资源中心</li>
+                <li>开发中心</li>
+                <li>返回导航页</li>
+            </ul>
+            <div class="head-btn">
+                <button class="bg border" style="margin-right: 20px;" @click="login">登录</button>
+                <button class="bg border">注册</button>
+            </div>
+        </div>
+    </header>
+    <nav class="flex-box nav-container-box">
+        <ul class="bg nav-container">
+            <li @click="toggleNavBox(NAV_ITEM.BACK)"><img src="../img/back-to-top.png" alt="back to top"/></li>
+            <li @click="toggleNavBox(NAV_ITEM.PENSION)"><img src="../img/pension.png" alt="pension"/>
+                <p>养老</p></li>
+            <li @click="toggleNavBox(NAV_ITEM.POOR)"><img src="../img/support-poor.png" alt="support poor"/>
+                <p>扶贫</p></li>
+            <li @click="toggleNavBox(NAV_ITEM.INDUSTRY)"><img src="../img/industry.png" alt="industry"/>
+                <p>产业</p></li>
+            <li @click="toggleNavBox(NAV_ITEM.PARTY)"><img src="../img/party.png" alt="party"/>
+                <p>党建</p></li>
+        </ul>
+        <div class="bg nav-box" v-show="bShowNavBox">
+            <div class="nav-box-0">
+                <h1 v-cloak>{{aNavBoxList}}专题</h1>
+                <ul>
+                    <li>
+                        <div >
+                            <p class="nav-content">文化教育</p>
+                            <ul class="nav-box-list">
+                                <li><input type="checkbox" id="cy_cluster" style="zoom:120%;"/>距离聚类</li>
+                                <li><input type="checkbox" id="tj_cluster" style="zoom:120%;"/>区域聚类</li>
+                                <li><input type="checkbox" id="flare_cluster" style="zoom:120%;"/>聚类再研究</li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li>
+                        <div >
+                            <p class="nav-content">热力图</p>
+                            <ul class="nav-box-list">
+                                <li><input type="checkbox" style="zoom:120%;"/>热力图</li>
+                                <li><input type="checkbox" style="zoom:120%;"/>热力图plus</li>
+                                <li><input type="checkbox" style="zoom:120%;"/>热力图plus+</li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <aside>
+        <ul class="aside-container">
+            <li id="25d" class="border on" onclick="showMap('25d')"><img src="../img/position-grey.png" alt="">
+                <p>2.5维</p></li>
+            <li id="vec" class="border" onclick="showMap('vec')"><img src="../img/dimensional-grey.png" alt="">
+                <p>2维</p></li>
+            <li id="img" class="border" onclick="showMap('img')"><img src="../img/satellite-grey.png" alt="">
+                <p>卫星</p></li>
+            <li id="ter" class="border" onclick="showMap('ter')"><img src="../img/panorama-grey.png" alt="">
+                <p>全景</p></li>
+        </ul>
+    </aside>
+    <footer>
+        <ul class="flex-box foot-nav">
+            <li class="bg border">精准扶贫</li>
+            <li class="bg border">智慧养老</li>
+            <li class="bg border">养老产业</li>
+            <li class="bg border">智慧党建</li>
+        </ul>
+    </footer>
+</div>
+</body>
+</html>
+<script>
+    var homeVue = new Vue({
+        el: "#map",
+        data: {
+            bShowNavBox: false,
+            sActiveNav: '',
+            aNavBoxList: 'aNavBoxList',
+            /*地图数据*/
+            activeLayer:null,
+            activeInfoLayer:null,
+            mapConfig:{
+                map:null,
+                container:"map",
+                zoom:8,
+                center:[108,38]
+            }
+        },
+        methods: {
+            login() {
+                location.href = './login.html'
+            },
+            toggleNavBox(val) {
+                if (this.sActiveNav !== val) {
+                    this.sActiveNav = val
+                    switch (val) {
+                        case NAV_ITEM.BACK:
+                            this.aNavBoxList = '返回'
+                            break
+                        case NAV_ITEM.PENSION:
+                            this.aNavBoxList = '养老'
+                            break
+                        case NAV_ITEM.POOR:
+                            this.aNavBoxList = '扶贫'
+                            break
+                        case NAV_ITEM.INDUSTRY:
+                            this.aNavBoxList = '产业'
+                            break
+                        case NAV_ITEM.PARTY:
+                            this.aNavBoxList = '党建'
+                            break
+                    }
+                    this.bShowNavBox = true
+                } else {
+                    this.bShowNavBox = !this.bShowNavBox
+                }
+            }
+        },
+        mounted:function () {
+            setMap()
+        }
+    })
+</script>

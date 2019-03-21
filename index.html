@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>地图数据展示系统</title>
+</head>
+<body>
+<div id="mapContainer">
+    <span @click="logout" style="cursor: pointer">进入地图数据展示系统</span>
+</div>
+
+<script src="./js/vue.min.js"></script>
+<script>
+    var mapVue = new Vue({
+        el: '#mapContainer',
+        methods: {
+            logout () {
+                location.href = './page/home.html'
+            }
+        }
+    })
+</script>
+</body>
+</html>

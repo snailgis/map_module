@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>人口信息弹窗</title>
+    <style type="text/css">
+        .Pop-table {
+            padding: 10px 20px;
+        }
+
+        .Pop-tabs {
+            height: 26px;
+            /*padding: 0 10px;*/
+            margin: 0 0 10px 0;
+        }
+
+        .Pop-tabs > div {
+            width: 100px;
+            height: 26px;
+            line-height: 26px;
+            float: left;
+            text-align: center;
+            cursor: pointer;
+            color: #474747;
+            margin: 0 5px 0 0;
+            border-radius: 9px;
+        }
+
+        .Pop-tabs > div.last {
+            margin: 0;
+        }
+
+        .Pop-tabs > div:hover {
+            color: #00BAFF
+        }
+
+        .Pop-tabs > div.active {
+            background: #00BAFF;;
+            color: #fff
+        }
+
+        .people-manage {
+            border-spacing: 0;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .people-manage td, .people-manage th {
+            line-height: 24px;
+            user-select: none;
+            background: #fff;
+            font-size: 16px;
+            border-collapse: collapse;
+            border-spacing: 0;
+            padding: 7px 9px;
+            color: #666;
+            border: 1px solid #DDD;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .Pop-tables > div {
+            display: none;
+            overflow: hidden;
+        }
+
+        .Pop-tables > div .Chart {
+            cursor: pointer;
+            color: #00BAFF;
+            text-decoration: underline;
+            font-size: 14px;
+            text-align: right;
+            width: 90px;
+            float: right;
+            margin-top: 15px;
+        }
+
+        .Pop-tables > div.active {
+            display: block;
+        }
+    </style>
+    <link rel="stylesheet" type="text/css"
+          href="http://fp1.xys.gov.cn/big-screen/arcgis_js_api/library/3.21/3.21/esri/css/esri.css"/>
+    <script type="text/javascript">
+        //注意!!!：必须先要写配置文件，再载入Dojo.js
+        var dojoConfig = {
+            packages: [{
+                name: "MapModule",
+                location: location.pathname.replace(/\/[^/]*$/, '') + '/MapModule'
+            }]
+        };
+    </script>
+    <script type="text/javascript" src="../js/jquery-3.3.1.min.js"></script>
+    <!--库-->
+    <script src="../js/vue.min.js"></script>
+    <script src="../js/axios.min.js"></script>
+    <script type="text/javascript"
+            src="http://fp1.xys.gov.cn/big-screen/arcgis_js_api/library/3.21/3.21/init.js"></script>
+</head>
+<body>
+<div class="Pop-table" id="Pop-manage">
+    <div class="Pop-tables">
+        <div class="Item-table active" id="basic-info">
+            <table class="people-manage" id="people-manage">
+                <tr>
+                    <td>不动产信息</td>
+                    <td id="type">{{type}}</td>
+                    <td rowspan="4">照片</td>
+                    <td rowspan="4"><img id="hzPic" src="../img/default-head.png"
+                                         onerror="this.src='../img/default-head.png'" alt="img"></td>
+                </tr>
+                <tr>
+                    <td>不动产类型</td>
+                    <td id="status">{{status}}</td>
+                </tr>
+                <tr>
+                    <td>ID</td>
+                    <td id="id">{{id}}</td>
+                </tr>
+                <tr>
+                    <td>所属区域</td>
+                    <td id="date">{{date}}</td>
+                </tr>
+                <tr>
+                    <td>详细地址</td>
+                    <td colspan="4" id="addr">{{addr}}</td>
+                </tr>
+                <tr>
+                    <td>产权信息</td>
+                    <td colspan="4" id="title">{{title}}</td>
+                </tr>
+                <tr>
+                    <td>房户信息</td>
+                    <td colspan="4" id="content">{{content}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!--<button @click="Search()">加载数据</button>-->
+</div>
+
+<script>
+    require([
+        "MapModule/MapJS",
+        "dojo/domReady!"
+    ], function (MapJS) {
+        let infoVue = new Vue({
+            el: "#Pop-manage",
+            data: {
+                dataList: '',
+                type:'',
+                status: '',
+                id: '',
+                date: "",
+                area: "",
+                title: "",
+                content: ""
+            },
+            methods: {
+                /*Search: function () {
+                    var _self = this;
+                    $.ajax({
+                        async: false,
+                        url: "http://61.185.20.20:5001/cyDp/cyVillageList?",
+                        type: "get",
+                        dataType: "json",
+                        success: function (data) {
+                            let temp = data.data[0];
+                            //_self.type=temp.reginName;
+                            //_self.status = temp.reginName;
+                            //_self.id = temp.reginName;
+                            _self.date = temp.reginName;
+                            _self.area = temp.reginName;
+                            _self.title = temp.reginName;
+                            _self.content = temp.reginName;
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                }*/
+            }
+        })
+    });
+</script>
+</body>
+</html>
