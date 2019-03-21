@@ -99,46 +99,39 @@ define([
                     map: map
                 }, "HomeButton");
                 homeBtn.startup();
-                // let tiledLayer=new ArcGISTiledMapServiceLayer("http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer");
-                // map.addLayer(tiledLayer);
+
+                // GeoQ智图在线资源
+                let geoqLayer={
+                    communityLayer:{
+                        name:'彩色版',
+                        url:'https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer'
+                    },
+                    warmLayer:{
+                        name:'暖色版',
+                        url:'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetWarm/MapServer'
+                    },
+                    blueLayer:{
+                        name:'蓝黑版',
+                        url:'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer'
+                    },
+                    grayLayer:{
+                        name:'灰色版',
+                        url:'https://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer'
+                    }
+                }
+                let communityLayer=new ArcGISTiledMapServiceLayer(geoqLayer.communityLayer.url)
+                map.addLayer(communityLayer);
+                // Google在线地图
+
                 /**
+                 * 以下地图均采用WGS-84坐标系（近2000）（4326/4490），经纬度直投
                  * 加载天地图底图服务(TDTTilesLayer.js)
                  * "img"表示加载影像数据，"cia"为影像标注，"vec"为矢量地图,"cva"为矢量标注
-                 */
-                let tiledvec_c = new TDTTilesLayer("vec");//矢量
-                let tiledimg_c = new TDTTilesLayer("img");//影像
-                let tiledcva_c = new TDTTilesLayer("cva");//矢量标注
-                let tiledcia_c = new TDTTilesLayer("cia");//影像标注
-                map.addLayers([tiledvec_c, tiledcva_c]);
-                map.addLayers([tiledimg_c, tiledcia_c]);
-                tiledimg_c.hide();
-                tiledcia_c.hide();
-                //咸阳市2.5D都市圈地图
-                let xy_25D1 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url01);
-                let xy_25D2 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url02);
-                let xy_25D3 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url03);
-                let xy_25D4 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url04);
-                let xy_25D5 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url05);
-                let xy_25D6 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url06);
-                let xy_25D7 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url07);
-                let xy_25D8 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url08);
-                let xy_25D9 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url09);
-                let xy_25D10 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url10);
-                let xy_25D11 = new ArcGISTiledMapServiceLayer(xyMap.xy25D[0].services.url11);
-                map.addLayers([xy_25D1, xy_25D2, xy_25D3, xy_25D4, xy_25D5, xy_25D6, xy_25D7, xy_25D8, xy_25D9, xy_25D10, xy_25D11]);
-
-                //本地咸阳市遥感影像切片
-                let xy_TDTImg1 = new ArcGISTiledMapServiceLayer(xyMap.basemap.img2.url, {displayLevels: [8, 9, 10, 11]});
-                let xy_TDTImg = new ArcGISTiledMapServiceLayer(xyMap.basemap.img.url, {displayLevels: [12, 13, 14, 15, 16, 17, 18]});
-                let xy_TDTImgLabel = new ArcGISTiledMapServiceLayer(xyMap.basemap.imglable.url);
-                map.addLayers([xy_TDTImg1, xy_TDTImg, xy_TDTImgLabel]);
-                xy_TDTImg1.hide();
-                xy_TDTImg.hide();
-                xy_TDTImgLabel.hide();
-                //咸阳市本地矢量地图
-                let xy_TDTVec = new ArcGISTiledMapServiceLayer(xyMap.basemap.vec.url);
-                map.addLayer(xy_TDTVec);
-                xy_TDTVec.hide();
+                 * TDTTilesLayer("vec");//矢量
+                 * TDTTilesLayer("img");//影像
+                 * TDTTilesLayer("cva");//矢量标注
+                 * TDTTilesLayer("cia");//影像标注
+                 **/
 
 
                 /**
